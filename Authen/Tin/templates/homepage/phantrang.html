@@ -1,0 +1,33 @@
+{% if tin.has_other_pages %}
+    <nav>
+    <ul class="pagination">
+      {% if tin.has_previous %}
+
+          <button style="height: 45px; margin-right: 10px;">
+          <a class="page-link" href="?page={{page.previous_page_number}}">Trước</a>
+        </button>
+
+
+      {% endif %}
+
+      {% for num in tin.paginator.page_range  %}
+        {% if tin.number == num %}
+          <li class="page-item active">
+            <a class="page-link" href=">?page={{num}}">{{num}}</a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{num}}">{{num}}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+
+      {% if tin.has_next %}
+        <button style="height: 45px;">
+          <a class="page-link" href="?page={{page.next_page_number}}">Tiếp</a>
+        </button>
+
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}

@@ -1,0 +1,105 @@
+{% extends 'homepage/base.html' %}
+{% block content %}
+    <div class="col-md-12 col-lg-8">
+        <p><h3><b>{{ tin.tieuDe|safe }}</b></h3></p>
+        {{ tin.nd|safe }}
+        <p><b>{{ tin.tacGia }}</b></p>
+
+
+{#commnet#}
+        {% if comments %}
+       <div class="p-30 mb-30 card-view">
+            <h4 class="p-title"><b>COMMENTS</b></h4>
+           {% for commnet in comments %}
+            <div class="sided-90x">
+                <div>
+                    <h5><b>{{ commnet.name }}</b><span class="ml-10 color-ash font-8">{{ commnet.creat_at.date }}</span></h5>
+                    <p class="mt-5 mb-10">
+                        {{ commnet.nd|safe }}
+                    </p>
+                </div><!-- s-left -->
+            </div><!-- sided-90x -->
+            {% endfor %}
+       </div>
+       {% endif %}
+
+
+{#form comment#}
+
+
+        <div class="p-30 mb-30 card-view">
+            <h4 class="p-title"><b>Gửi</b></h4>
+            <form action="{% url 'tin:getTin' tin.tieuDeKhongDau %}" method="post">
+                {% csrf_token %}
+{#                <input type="hidden" name='id_tin' value={{ tin }}>#}
+{#                {{ f.id_Tin }}#}
+                <div class="row">
+                    <div class="col-sm-6">
+                        <input type="text" name="name" class="mb-30" placeholder="Your name" maxlength="255" id="id_name" required>
+                    </div>
+                    <div class="col-sm-6">
+                        <input type="email" name="gmail" class="mb-30" placeholder="Your email" required maxlength="254" id="id_gmail">
+                    </div>
+                    <div class="col-sm-12">
+                        <textarea name="nd" cols="40" rows="10" class="mb-30" placeholder="Your message" required="" id="id_nd" required></textarea>
+                    </div>
+
+                </div>
+                <button class="btn-fill-primary plr-20" type="submit"><b>Gửi</b></button>
+            </form>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block cotphai1 %}
+    <div class="mb-30 p-30 card-view">
+        <h4 class="p-title"><b>Tin liên quan</b></h4>
+        {% for i in tinlienquan %}
+            <div class="sided-80x mb-20">
+                <div class="s-left">
+                    <img src="{{ i.anh.url }}" alt="">
+                </div><!-- s-left -->
+                <div class="s-right">
+                    <h5><a href="{% url 'tin:getTin' i.tieuDeKhongDau %}">
+                        <b>{{ i.tieuDe }}</b></a></h5>
+                    <div>{{ i.id_tl }}</div>
+                    <ul class="mtb-5 list-li-mr-20 color-lite-black">
+                        <li><i class="mr-5 font-12 ion-clock"></i>{{ i.create_at.date }}</li>
+                        <li><i class="mr-5 font-12 ion-eye"></i>{{ i.view }}</li>
+                    </ul>
+                </div><!-- s-left -->
+            </div><!-- sided-80x -->
+        {% endfor %}
+
+    {% if cungtacgia %}
+        <br />
+        <br />
+        <br />
+        <h4 class="p-title"><b>Cùng tác giả</b></h4>
+            {% for i in tinlienquan %}
+                <div class="sided-80x mb-20">
+                    <div class="s-left">
+                        <img src="{{ i.anh.url }}" alt="">
+                    </div><!-- s-left -->
+                    <div class="s-right">
+                        <h5><a href="{% url 'tin:getTin' i.tieuDeKhongDau %}">
+                            <b>{{ i.tieuDe }}</b></a></h5>
+                        <div>{{ i.id_tl }}</div>
+                        <ul class="mtb-5 list-li-mr-20 color-lite-black">
+                            <li><i class="mr-5 font-12 ion-clock"></i>{{ i.create_at.date }}</li>
+                            <li><i class="mr-5 font-12 ion-eye"></i>{{ i.view }}</li>
+                        </ul>
+                    </div><!-- s-left -->
+                </div><!-- sided-80x -->
+            {% endfor %}
+        </div><!-- card-view -->
+    {% endif %}
+{% endblock %}
+
+{#    comment#}
+
+
+
+
+
