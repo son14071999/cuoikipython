@@ -123,7 +123,7 @@ class getLoaiTin(View):
                       {'tag':tag,'theloai_base': theloai_base, 'lt_base': lt_base, 'tinxemnhieu': tinxemnhieu
                           , 'tin': tin, 'theloai': tl,'loaitin': lt})
 
-def tag(request):
+def search(request):
     theloai_base, lt_base, tag = getMenu()
     tinxemnhieu = locDl('view', 5, "-")
     if request.method == 'POST':
@@ -162,23 +162,23 @@ def tag(request):
                               {'tag': tag, 'theloai_base': theloai_base, 'lt_base': lt_base, 'tinxemnhieu': tinxemnhieu,
                                'tin': kq, 'count': len(kq), 'keyword': keyword})
 
-def search(request):
-    theloai_base, lt_base,tag = getMenu()
-    tinxemnhieu = locDl('view', 5, "-")
-    if request.method=='POST':
-        keyword = request.POST['search']
-        listdt = Tin.objects.order_by('-create_at')
-        kq = []
-        for i in range(len(listdt)):
-            print("keyword = ",keyword)
-            print("tieude = ", listdt[i].tieuDe)
-            print("ndtomtat = ", listdt[i].ndTomTat)
-            if listdt[i].tieuDe.__contains__(keyword) or listdt[i].ndTomTat.__contains__(keyword):
-                listdt[i].tieuDe = listdt[i].tieuDe.replace(keyword,"<mark style='background: #FCF902;'>"+str(keyword)+"</mark>")
-                listdt[i].ndTomTat = listdt[i].ndTomTat.replace(keyword, "<mark style='background: #FCF902;'>" + str(keyword) + "</mark>")
-                kq.append(listdt[i])
-        if kq == []:
-            message = 'không tìm thấy kết quả của '+str(keyword)
-            return render(request,'homepage/search.html',{'tag':tag,'theloai_base':theloai_base, 'lt_base':lt_base,'tinxemnhieu':tinxemnhieu, 'message': message})
-        else:
-            return render(request, 'homepage/search.html',{'tag':tag,'theloai_base': theloai_base, 'lt_base': lt_base, 'tinxemnhieu': tinxemnhieu,'tin': kq, 'count':len(kq),'keyword':keyword})
+# def search(request):
+#     theloai_base, lt_base,tag = getMenu()
+#     tinxemnhieu = locDl('view', 5, "-")
+#     if request.method=='POST':
+#         keyword = request.POST['search']
+#         listdt = Tin.objects.order_by('-create_at')
+#         kq = []
+#         for i in range(len(listdt)):
+#             print("keyword = ",keyword)
+#             print("tieude = ", listdt[i].tieuDe)
+#             print("ndtomtat = ", listdt[i].ndTomTat)
+#             if listdt[i].tieuDe.__contains__(keyword) or listdt[i].ndTomTat.__contains__(keyword):
+#                 listdt[i].tieuDe = listdt[i].tieuDe.replace(keyword,"<mark style='background: #FCF902;'>"+str(keyword)+"</mark>")
+#                 listdt[i].ndTomTat = listdt[i].ndTomTat.replace(keyword, "<mark style='background: #FCF902;'>" + str(keyword) + "</mark>")
+#                 kq.append(listdt[i])
+#         if kq == []:
+#             message = 'không tìm thấy kết quả của '+str(keyword)
+#             return render(request,'homepage/search.html',{'tag':tag,'theloai_base':theloai_base, 'lt_base':lt_base,'tinxemnhieu':tinxemnhieu, 'message': message})
+#         else:
+#             return render(request, 'homepage/search.html',{'tag':tag,'theloai_base': theloai_base, 'lt_base': lt_base, 'tinxemnhieu': tinxemnhieu,'tin': kq, 'count':len(kq),'keyword':keyword})
